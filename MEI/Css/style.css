@@ -70,4 +70,8 @@ hr{
 .iphone{
     border-radius: 30px;
 }
-/* --------------FAQ----------- */
+/*-------------- NOTICIAS----------- */
+#noticias{height: 50vh;}
+.linha{background-color: darkblue;height: 2px;}
+#news{ height: 25vh;background-image: url("../Media/img/opaco.jpg");background-repeat: repeat;background-size: cover;}
+.backg{background-color: white;height: 25vh;}

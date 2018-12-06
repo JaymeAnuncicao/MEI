@@ -22,13 +22,13 @@
             <div class="collapse navbar-collapse " id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link nav-item text-white" href="index.html#home">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link nav-item text-white" href="index.php#home">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="index.html#nossaempresa">Nossa Empresa</a>
+                        <a class="nav-link text-white" href="index.php#nossaempresa">Nossa Empresa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="index.html#funcionalidades">Funcinalidades</a>
+                        <a class="nav-link text-white" href="index.php#funcionalidades">Funcinalidades</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#planos">Planos</a>
