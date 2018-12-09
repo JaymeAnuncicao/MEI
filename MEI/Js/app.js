@@ -11,5 +11,6 @@ $(' nav a[href^="#"], #home a, #funcionalidades a').click(function(e){
 			targetOffset = $(id).offset().top;
 	$('html, body').animate({
 		scrollTop: targetOffset - menuHeight
-	}, 100);
+	}, 800);
 })
+

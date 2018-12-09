@@ -1,3 +1,25 @@
+
+
+
+<?php
+    require_once 'PHP/init.php';
+    if(isset($_POST['titulo'], $_POST['assunto'])){
+        $titulo = $_POST['titulo'];
+        $assunto = $_POST['assunto'];
+
+        $connec = db_connect();
+
+        $query = 'INSERT INTO noticias (assunto,titulo) VALUES (:assunto, :titulo);';
+        $stmt = $connec->prepare($query);
+        $stmt->bindValue(':assunto', $assunto);
+        $stmt->bindValue(':titulo', $titulo);
+        $stmt->execute();
+    }
+?>
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,13 +44,13 @@
             <div class="collapse navbar-collapse " id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link nav-item text-white" href="index.php#home">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link nav-item text-white" href="index.html#home">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="index.php#nossaempresa">Nossa Empresa</a>
+                        <a class="nav-link text-white" href="index.html#nossaempresa">Nossa Empresa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="index.php#funcionalidades">Funcinalidades</a>
+                        <a class="nav-link text-white" href="index.html#funcionalidades">Funcinalidades</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#planos">Planos</a>
@@ -128,6 +150,16 @@
         </div>
       
     </section>
+    <div class="col-md-6 mt-3 mb-5 mr-5 col-lg-4 float-right container">
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" class="z-depth-3 text-center rounded primary-color-dark p-5">
+                <h4 class="modal-title text-white w-100 font-weight-bold">Adicionar Notícia</h4>
+                <br>
+                <input type="text"  name="assunto" class="form-control mb-4" placeholder="Assunto">
+                <textarea name="titulo" id="campoMensagemNoticia" rows="10" class="form-control mb-4" placeholder="Titulo"></textarea>
+            <button class="press press-round z-depth-1 press-black col-6">Enviar</button>
+            </form>
+    </div>
+
 
 
     
