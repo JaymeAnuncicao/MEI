@@ -1,6 +1,4 @@
-/* html{
-    scroll-behavior: smooth;
-} */
+
 /* ---------------NAVBAR:INICIO----------- */
 .navbar{
     height: 12vh;
@@ -50,6 +48,7 @@ ul li:hover{background-color: rgb(1,130,202);background-size: 100px;}
 
 /* ---------------NOSSA EMPRESA:INICIO----------- */
 #nossaempresa{ height: 70vh;}
+.ipsum{font-size: 30px;}
 /* ---------------NOSSA EMPRESA:FIM----------- */
 
 /* --------------FUNCIONALIDADES : INICIO----------- */
@@ -58,15 +57,22 @@ ul li:hover{background-color: rgb(1,130,202);background-size: 100px;}
 .func1{background-color: rgb(4,30,65);height: 3px;width: 15vw;margin-left: -0.5vw;}
 .linha2{background-color: rgb(4,30,65);height: 3px;width: 40%;}
 .button2{font-size: 16px;width: 30vw;height: 7vh;border-radius: 6px;}
-/* --------------FUNCIONALIDADES : FIM----------- */
-
- 
 .iphone{
     border-radius: 30px;
 }
+/* --------------FUNCIONALIDADES : FIM----------- */
+
 /*-------------- NOTICIAS----------- */
 #noticias{height: 50vh;background-color: wheat;}
 .linha{background-color: rgb(4,30,65);height: 3px;margin-top: -1vh;margin-bottom: 5vh;width: 10%;}
 #news{ height: 25vh;}
 .backg{background-color:white;height: 25vh;}
 .carousel-control-next-icon{background-image: url('../Media/img/next.png');}
+
+:-ms-input-placeholder {  
+    color: rgb(4, 30, 65);  
+ }
+/*----------------------------MODAL------------------*/
+.input1{border: 1px solid ;border-radius: 6px;border-color:rgb(4, 30, 65); width: 20vw; height: 6.5vh;padding-left: 10px; }
+.input{border: 1px solid ;border-radius: 6px;border-color:rgb(4, 30, 65); width: 10vw; height: 6.5vh;padding-left: 10px;}
+
