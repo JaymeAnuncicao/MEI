@@ -1,5 +1,7 @@
 
 <?php
+    session_start();
+
     require_once 'PHP/init.php';
 
     $conex = db_connect();
@@ -7,54 +9,68 @@
     $stmt= $conex->prepare($query1);
     $stmt->execute();
     
-    if(isset($_POST['nome'], $_POST['email'], $_POST['telefone'], $_POST['senha'], $_POST['problema'])){
-        $nome=$_POST['nome'];
+    if(isset($_POST['nomeEmpresa'],$_POST['nomeResponsavel'], $_POST['email'],$_POST['senha'],$_POST['estado'],$_POST['CNPJ'],$_POST['CNAE'])){
+        $nomeEmpresa=$_POST['nomeEmpresa'];
+        $nomeResponsavel=$_POST['nomeResponsavel'];
         $email=$_POST['email'];
         $senha=sha1($_POST['senha']);
-        $telefone=$_POST['telefone'];
-        $problema=$_POST['problema'];
+        $estado=$_POST['estado'];
+        $CNPJ=$_POST['CNPJ'];
+        $CNAE=$_POST['CNAE'];       
 
         $conec = db_connect();
 
-        $query3 = 'SELECT email FROM usuarios WHERE email=:email';
-        $stmt = $connec->prepare($query1);
+        $query3 = 'SELECT email FROM clientes WHERE email=:email';
+        $stmt = $conec->prepare($query3);
         $stmt->bindValue(':email', $email);
         $stmt->execute();
         $array = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if(sizeof($array) == 0){
-            $query2 = 'INSERT INTO usuarios (nome, email, telefone, senha) VALUES (:nome, :email, :telefone, :senha);';
-            $stmt = $connec->prepare($query2);
-            $stmt->bindValue(':nome', ucfirst($nome));
+            $query2 = 'INSERT INTO clientes (nomeEmpresa,nomeResponsavel,email,senha,estado,CNPJ,CNAE) VALUES (:nomeEmpresa,:nomeResponsavel,:email,:senha,:estado,:CNPJ,:CNAE);';
+            $stmt = $conec->prepare($query2);
+            $stmt->bindValue(':nomeEmpresa', ucfirst($nomeEmpresa));
+            $stmt->bindValue(':nomeResponsavel', ucfirst($nomeResponsavel));
             $stmt->bindValue(':email', $email);
-            $stmt->bindValue(':telefone', $telefone);
             $stmt->bindValue(':senha', $senha);
+            $stmt->bindValue(':estado', $estado);
+            $stmt->bindValue(':CNPJ', $CNPJ);
+            $stmt->bindValue(':CNAE', $CNAE);
             $stmt->execute();
+            header("Location: index.php");
+
         }else {
             $err = 'Email já cadastrado';
             $cadastro = false;
         }
     }
+
+
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>MEI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-----TITLE---->
+    <title>MEI</title>
+    <!-------FONTS------>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!-----PLUGINS CSS---->
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="css/hover-min.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
+	<link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
+	<link rel="stylesheet" type="text/css" href="css/owl.theme.default.css">
 </head>
 <body>
     <!---------------------NAVBAR-------------->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-darkblue fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-darkblue fixed-top" id="Navbar">
             <a class="navbar-brand" href="#"><img src="Media/img/logo.png" width="60" height="60" id="navLogo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon bg-darkblue"></span>
@@ -100,13 +116,14 @@
                 <img src="Media/img/logo.png" width="300" height="300" id="homeLogo">
                 <h1 class="mt-5">A melhor resposta sua micro ou pequena empresa</h1>
                 <h4 class="mt-3">Você tem dúviddas? Nós respondemos</h4>
-                <button class="button button1 mt-5">SAIBA MAIS</button>
+                <a href="#"><button class="button button1 mt-5 hvr-grow">SAIBA MAIS</button></a>
             </div>
         </div>
     </section>
     <div class="marge" id="enterprise"></div>
 
-    <!-------------------NOSSA EMPRESA---------------------->
+    <!--------------------------------------NOSSA EMPRESA:INICIO----------------------------------------------------------------->
+
     <section id="nossaempresa" class="container-fluid">
         <div class="row container-fluid justify-content-center">
             <div class="col-md-4">
@@ -119,39 +136,38 @@
         </div>
     </section>
     <div class="anchor"><hr noshade></div>
+    <!--------------------------------------NOSSA EMPRESA:FIM----------------------------------------------------------------->
 
-    <!-----------------FUNCINALIDADES------------->
+    <!-----------------------------FUNCINALIDADES:INICIO--------------------------->
     <section id="funcionalidades" class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-4 ">
-                <h1 class="texto ml-5">FUNCIONALIDADES</h1>
-                <hr noshade class="linha2 ">
-            </div>
-        </div>
+        <h1 class="texto text-center">FUNCIONALIDADES</h1>
+        <hr noshade class="linha2  text-center">
+     
         <div class="row justify-content-center ">
-            <div class="col-md-4 text-right">
-                <div class="row">
+        <!--------------------------BLOCO 1:INICIO------------------------------>
+            <div class="col-md-4 text-right ">
+                <div class="row justify-content-end">   
                     <div class="col-md-10">
-                        <h5 class="texto">Funcionalidade 1</h5>
+                        <a href="#"><h5 class="texto">Funcionalidade 1</h5></a>
                         <hr noshade class="func">
                         <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row justify-content-end">
                 <div class="col-md-10">
                         <h5 class="texto">Funcionalidade 2</h5>
                         <hr noshade class="func">
                         <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row justify-content-end">
                 <div class="col-md-10">
                         <h5 class="texto">Funcionalidade 3</h5>
                         <hr noshade class="func">
                         <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row justify-content-end">
                 <div class="col-md-10">
                         <h5 class="texto">Funcionalidade 4</h5>
                         <hr noshade class="func">
@@ -159,10 +175,14 @@
                     </div>
                 </div>
             </div>
+        <!----------------------------BLOCO 1:FIM------------------------>
 
-            <div class="col-md-2 text-center mr-5 ml-4"><img src="Media/img/iphone.jpg" alt=""></div>
-
-            <div class="col-md-4 ml-5">
+        <!----------------------------IMG-IPHONE:INICIO------------------------>
+            <div class="col-md-4 text-center "><img src="Media/img/iphone.jpg" alt=""></div>
+        <!----------------------------IMG-IPHONE:FIM------------------------>
+        
+        <!--------------------------BLOCO 2:INICIO------------------------------>
+            <div class="col-md-4 ">
                 <div class="row">
                     <div class="col-md-10">
                         <h5 class="texto">Funcionalidade 5</h5>
@@ -192,16 +212,207 @@
                     </div>
                 </div>
             </div>
+        <!----------------------------BLOCO 2:FIM------------------------>    
         </div>
-        <div class="row justify-content-center mr-3">
-            <a href="#"><button class="button button2 mr-5">SAIBA MAIS SOBRE TODOS ELES</button></a>
+        <div class="row justify-content-center">
+            <a href="#" class=""><button class="button button2 hvr-grow">SAIBA MAIS SOBRE TODOS ELES</button></a>
         </div>
     </section>
-
-    <!-------------------NOTICIAS---------------------->
+    <!-----------------------------FUNCINALIDADES:FIM--------------------------->
     
 
-<!---------------MODAL-CADASTRO-------------->
+    <!----------------------------------CARTÃO MEi:INICIO---------------------->
+    <section id="cartao" class="container-fluid">
+        <div class="row  justify-content-around align-items-end">
+            <div class="col-md-4 mt-5">
+                <div class="row justify-content-center"><img src="Media/img/cartao-mei.jpeg" alt="" width="350" height="200"></div>
+                <div class="row text-justify">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex nemo, labore adipisci eveniet totam possimus delectus ab harum! Mollitia voluptatibus quam corporis maiores autem suscipit natus officiis vel atque dolor?Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptas vel cupiditate dolores ratione, totam, corrupti officiis itaque, expedita praesentium quibusdam accusantium voluptatum molestiae vero voluptate suscipit pariatur laborum. Laudantium!
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row justify-content-center"><img src="Media/img/faq-icon.png" alt="" width="350" height="200"></div>
+                <div class="row text-justify">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex nemo, labore adipisci eveniet totam possimus delectus ab harum! Mollitia voluptatibus quam corporis maiores autem suscipit natus officiis vel atque dolor?Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptas vel cupiditate dolores ratione, totam, corrupti officiis itaque, expedita praesentium quibusdam accusantium voluptatum molestiae vero voluptate suscipit pariatur laborum. Laudantium!
+                </div>
+            </div>
+        </div>
+    </section>
+    <!----------------------------------CARTÃO MEi:FIM-------------------------->
+
+
+
+    <!-------------------NOTICIAS:INICIO---------------------->
+    <section id="noticias" class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h1 class="texto">Noticias</h1>
+                <hr noshade class="linha float-center">
+            </div>
+        </div> 
+        <div id="news">
+                <div id="carouselExampleIndicators" class="carousel slide ml-5 " data-ride="carousel">
+                    <ol class="carousel-indicators desce">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1" ></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2" ></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row justify-content-center">
+                            <!------------------PRIMEIRO PAR DE NOTICIAS:INCIO---------------->
+                                <div class="col-md-4 backg ml-5">
+                                    <div class="row">
+                                        <div class="mt-3 col-md-4 mr-5">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                        </div>
+                                        <div class="mt-3 col-md-4 ml-3">
+                                        <p class=""><?php
+                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                                $id=$user['id'];
+                                                if(isset($user['titulo'])){
+                                                    
+                                                    echo($user['titulo']);
+                                                }else{echo('Sem noticia.');}
+                                              ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 backg ml-5">
+                                    <div class="row">
+                                        <div class="mt-3 col-md-4 mr-5">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                        </div>
+                                        <div class="mt-3 col-md-4 ml-3">
+                                            <p class=""><?php
+                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                                $id=$user['id'];
+                                                if(isset($user['titulo'])){
+                                                    
+                                                    echo($user['titulo']);
+                                                }else{echo('Sem noticia.');}
+                                              ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!------------------PRIMEIRO PAR DE NOTICIAS:FIM---------------->
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row justify-content-center">
+                            <!------------------SEGUNDO PAR DE NOTICIAS:INCIO---------------->
+                                <div class="col-md-4 backg ml-5">
+                                    <div class="row">
+                                        <div class="mt-3 col-md-4 mr-5">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                        </div>
+                                        <div class="mt-3 col-md-4 ml-3">
+                                            <p class=""><?php 
+                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                                $id=$user['id'];
+                                                if(isset($user['titulo'])){
+                                                    
+                                                    echo($user['titulo']);
+                                                }else{echo('Sem noticia.');}
+                                            ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 backg ml-5">
+                                    <div class="row">
+                                        <div class="mt-3 col-md-4 mr-5">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                        </div>
+                                        <div class="mt-3 col-md-4 ml-3">
+                                            <p class=""><?php 
+                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                                $id=$user['id'];
+                                                if(isset($user['titulo'])){
+                                                    
+                                                    echo($user['titulo']);
+                                                }else{echo('Sem noticia.');}
+                                            ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!------------------SEGUNDO PAR DE NOTICIAS:FIM---------------->
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row justify-content-center">
+                            <!------------------TERCEIRO PAR DE NOTICIAS:INICIO---------------->
+                                <div class="col-md-4 backg ml-5">
+                                    <div class="row">
+                                        <div class="mt-3 col-md-4 mr-5">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150">
+                                        </div>
+                                        <div class="mt-3 col-md-4 ml-3">
+                                            <p><?php ?></p>
+                                            <p class=""><?php 
+                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                                $id=$user['id'];
+                                                if(isset($user['titulo'])){
+                                                    echo($user['titulo']);
+                                                }else{echo('Sem noticia.');} 
+                                            ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 backg ml-5">
+                                    <div class="row">
+                                        <div class="mt-3 col-md-4 mr-5">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                        </div>
+                                        <div class="mt-3 col-md-4 ml-3">
+                                            <p class=""><?php 
+                                               $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                               $id=$user['id'];
+                                               if(isset($user['titulo'])){
+                                                    
+                                                echo($user['titulo']);
+                                            }else{echo('Sem noticia.');}
+                                            ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!------------------TERCEIRO PAR DE NOTICIAS:FIM---------------->
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev mr-5" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+        </div>
+    </section>
+    <!--------------------NOTICIAS:FIM-------------------------------->
+
+    <!--------------------CONTATOS:INICIO-------------------------------->                                       
+    <section id="contatos" class="container-fluid">
+        <div class="row bg justify-content-center align-itens-center">
+            <div class="col-6 col-sm-4 mt-5">
+                <h1 class="text-white mt-5 mb-5">Entre em contato conosco</h1>
+                <form action="" method="post">
+                    <input type="text" name="Contnome" class="z-depth-1  mb-3 conta1 texto" placeholder="Nome">                            
+                    <input type="email" name="Contemail" class="z-depth-1  mb-3 mr-3 conta texto" id="cemail"placeholder="E-email">
+                    <input type="text" name="telefone" class="z-depth-1  mb-3 conta texto" placeholder="Telefone">
+                    <input type="text" name="motivo" class="z-depth-1  mb-3 conta1 texto" placeholder="Motivo do contato">
+                    <textarea name="mensagem" placeholder="Mensagem..." id="" cols="30" rows="10"></textarea>
+                        
+                </form>    
+                <div class="row justify-content-center"><input type="submit" value="Enviar" class="btn btn-success btn-lg col-3 mt-2"></div>                       
+            </div>
+            
+        </div>
+    </section>                                            
+   <!--------------------CONTATOS:FIM--------------------------------> 
+
+<!---------------MODAL-CADASTRO:INICIO-------------->
     <div class="modal fade" id="ModalCadastro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document"> 
             <div class="modal-content">
@@ -228,8 +439,9 @@
             </div>
         </div>
     </div>
+<!---------------MODAL-CADASTRO:FIM-------------->
 
-<!--------------------MODAL-LOGIN------------------->
+<!--------------------MODAL-LOGIN:INICIO------------------->
     <div class="modal fade bd-example-modal-sm" id="ModalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -251,14 +463,9 @@
             </div>
         </div>
     </div>
-
+<!--------------------MODAL-LOGIN:FIM------------------->
     <script type="text/javascript">
-        $(window).scroll(function(){
-		    $("#homeLogo").css("opacity", 1 - $(window).scrollTop() / 200);
-		});
-		$(window).scroll(function(){
-		   let $("#navLogo").css("opacity", 0 + $(window).scrollTop() / 200);
-		});
+      $('body').scrollspy({ target: '#Navbar' });
     </script>
 
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
