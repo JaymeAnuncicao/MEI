@@ -43,6 +43,22 @@
             $cadastro = false;
         }
     }
+    if(isset($_POST['loginemail'],$_POST['loginsenha'])){
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);  
+        $login = $_POST['loginemail'];
+        $lenha = $_POST['loginsenha'];
+
+        if($login == $dados['email'] && $lenha == $dados['senha']){
+            header("Location: Usuario.php");
+            // echo('login com sucesso user!');
+        }elseif($login == 'admin@mail.com' && $lenha == 'admin'){
+            header("Location: admin.php");
+            // echo('login com sucesso admin!');
+        }else{
+            echo($dados['email']);
+            // header("Location: FAQ.php");
+        }
+    }
 
 
 ?>
@@ -475,3 +491,12 @@
     <script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
+
+
+<?php
+
+  
+
+
+
+?>
