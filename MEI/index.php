@@ -1,6 +1,10 @@
 
 <?php
     session_start();
+    $_SESSION['usuario'] = '';
+    $_SESSION['email'] = '';
+    $_SESSION['senha'] = '';
+    $_SESSION['authenticate']= false;
 
     require_once 'PHP/init.php';
 
@@ -8,7 +12,10 @@
     $query1= "SELECT id,assunto,titulo FROM noticias ORDER BY id DESC LIMIT 6;";
     $stmt= $conex->prepare($query1);
     $stmt->execute();
-    
+
+
+
+
     if(isset($_POST['nomeEmpresa'],$_POST['nomeResponsavel'], $_POST['email'],$_POST['senha'],$_POST['estado'],$_POST['CNPJ'],$_POST['CNAE'])){
         $nomeEmpresa=$_POST['nomeEmpresa'];
         $nomeResponsavel=$_POST['nomeResponsavel'];
@@ -42,23 +49,30 @@
             $err = 'Email já cadastrado';
             $cadastro = false;
         }
+        
     }
     if(isset($_POST['loginemail'],$_POST['loginsenha'])){
-        $dados = $stmt->fetch(PDO::FETCH_ASSOC);  
         $login = $_POST['loginemail'];
         $lenha = $_POST['loginsenha'];
+        $conec = db_connect();
+        $stmt->bindValue(':loginemail',$login);
+        $stmt->bindValue(':loginsenha',$lenha);
+        $stmt->execute();
+        $sql = "SELECT nomeResponsavel,nomeEmpresa,senha FROM clientes WHERE email ='$login',senha ='$lenha';";
+        
+        
 
-        if($login == $dados['email'] && $lenha == $dados['senha']){
-            header("Location: Usuario.php");
-            // echo('login com sucesso user!');
-        }elseif($login == 'admin@mail.com' && $lenha == 'admin'){
-            header("Location: admin.php");
-            // echo('login com sucesso admin!');
-        }else{
-            echo($dados['email']);
-            // header("Location: FAQ.php");
+        if(strcmp($login,'admin@mail.com') == 0 && strcmp($lenha,'admin') == 0){
+            $_SESSION['authenticateADM'] = true;
+            header("location: admin.php");
+        }elseif (strcmp($lenha,$dados['senha']) == 0 && strcmp($login,$dados['email']) == 0){
+            $_SESSION['usuario'] = $name;
+            $_SESSION['email'] = $login;
+            $_SESSION['authenticateUser'] = true;
+            exit();
         }
-    }
+        
+    }    
 
 
 ?>

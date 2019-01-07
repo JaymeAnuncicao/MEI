@@ -1,3 +1,13 @@
+<?php
+ session_start();
+ if($_SESSION['authenticateUser'] != true){
+     session_destroy();
+     header("Location: FAQ.php");
+ }
+?>
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +19,6 @@
     <script src="main.js"></script>
 </head>
 <body>
-    <h1>OI</h1>
+    <h1>Olá,<?php echo ucfirst($_SESSION['usuario']).'.';?></h1>
 </body>
 </html>
