@@ -169,7 +169,7 @@
             </div>
         </div>
     </section>
-    <div class="anchor"><hr noshade></div>
+    <!-- <div class="anchor"><hr noshade></div> -->
     <!--------------------------------------NOSSA EMPRESA:FIM----------------------------------------------------------------->
 
     <!-----------------------------FUNCINALIDADES:INICIO--------------------------->
@@ -298,34 +298,34 @@
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
-                                        <p class=""><?php
-                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                                $id=$user['id'];
-                                                if(isset($user['titulo'])){
-                                                    
-                                                    echo($user['titulo']);
-                                                }else{echo('Sem noticia.');}
-                                              ?></p>
+                                        <?php
+                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                            $id=$user['id'];
+                                            if(isset($user['titulo'])){
+                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
+                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
+                                            }else{echo('Sem noticia.');}
+                                        ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
-                                            <p class=""><?php
-                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                                $id=$user['id'];
-                                                if(isset($user['titulo'])){
-                                                    
-                                                    echo($user['titulo']);
-                                                }else{echo('Sem noticia.');}
-                                              ?></p>
+                                        <?php
+                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                            $id=$user['id'];
+                                            if(isset($user['titulo'])){
+                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
+                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
+                                            }else{echo('Sem noticia.');}
+                                        ?>
                                         </div>
                                     </div>
                                 </div>
@@ -338,34 +338,34 @@
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
-                                            <p class=""><?php 
-                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                                $id=$user['id'];
-                                                if(isset($user['titulo'])){
-                                                    
-                                                    echo($user['titulo']);
-                                                }else{echo('Sem noticia.');}
-                                            ?></p>
+                                        <?php
+                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                            $id=$user['id'];
+                                            if(isset($user['titulo'])){
+                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
+                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
+                                            }else{echo('Sem noticia.');}
+                                        ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
-                                            <p class=""><?php 
-                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                                $id=$user['id'];
-                                                if(isset($user['titulo'])){
-                                                    
-                                                    echo($user['titulo']);
-                                                }else{echo('Sem noticia.');}
-                                            ?></p>
+                                        <?php
+                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                            $id=$user['id'];
+                                            if(isset($user['titulo'])){
+                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
+                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
+                                            }else{echo('Sem noticia.');}
+                                        ?>
                                         </div>
                                     </div>
                                 </div>
@@ -378,34 +378,34 @@
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
-                                            <p><?php ?></p>
-                                            <p class=""><?php 
-                                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                                $id=$user['id'];
-                                                if(isset($user['titulo'])){
-                                                    echo($user['titulo']);
-                                                }else{echo('Sem noticia.');} 
-                                            ?></p>
+                                        <?php
+                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                            $id=$user['id'];
+                                            if(isset($user['titulo'])){
+                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
+                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
+                                            }else{echo('Sem noticia.');}
+                                        ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" alt="">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
-                                            <p class=""><?php 
-                                               $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                               $id=$user['id'];
-                                               if(isset($user['titulo'])){
-                                                    
-                                                echo($user['titulo']);
+                                        <?php
+                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                            $id=$user['id'];
+                                            if(isset($user['titulo'])){
+                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
+                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
                                             }else{echo('Sem noticia.');}
-                                            ?></p>
+                                        ?>
                                         </div>
                                     </div>
                                 </div>
@@ -490,7 +490,7 @@
                     </div>
                 </div>                                    
                 <form class="text-center primary-color-dark p-5" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                    <input type="email" required name="loginemail" class="z-depth-1  mb-5 input1 texto" placeholder="Usuario">
+                    <input type="email" required name="loginemail" class="z-depth-1  mb-3 input1 texto" placeholder="Usuario">
                     <input type="password" required name="loginsenha" class="z-depth-1  input1 texto" placeholder="Senha"> 
                     <input type="submit" value="Entrar" class="btn btn-success btn-lg col-6 mt-5">
                 </form>                               
