@@ -25,16 +25,14 @@
         $CNPJ=$_POST['CNPJ'];
         $CNAE=$_POST['CNAE'];       
 
-        $conec = db_connect();
-
         $query3 = 'SELECT email FROM clientes WHERE email=:email';
-        $stmt = $conec->prepare($query3);
+        $stmt = $conex->prepare($query3);
         $stmt->bindValue(':email', $email);
         $stmt->execute();
         $array = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if(sizeof($array) == 0){
             $query2 = 'INSERT INTO clientes (nomeEmpresa,nomeResponsavel,email,senha,estado,CNPJ,CNAE) VALUES (:nomeEmpresa,:nomeResponsavel,:email,:senha,:estado,:CNPJ,:CNAE);';
-            $stmt = $conec->prepare($query2);
+            $stmt = $conex->prepare($query2);
             $stmt->bindValue(':nomeEmpresa', ucfirst($nomeEmpresa));
             $stmt->bindValue(':nomeResponsavel', ucfirst($nomeResponsavel));
             $stmt->bindValue(':email', $email);
@@ -53,22 +51,28 @@
     }
     if(isset($_POST['loginemail'],$_POST['loginsenha'])){
         $login = $_POST['loginemail'];
-        $lenha = $_POST['loginsenha'];
-        $conec = db_connect();
-        $stmt->bindValue(':loginemail',$login);
-        $stmt->bindValue(':loginsenha',$lenha);
-        $stmt->execute();
-        $sql = "SELECT nomeResponsavel,nomeEmpresa,senha FROM clientes WHERE email ='$login',senha ='$lenha';";
+        $lenha = sha1($_POST['loginsenha']);
+        $sql = "SELECT nomeResponsavel, nomeEmpresa, senha, email FROM clientes WHERE email = :loginemail AND senha = :loginsenha;";
+        $stmt = $conex->prepare($sql);
         
+        $stmt->bindValue(':loginemail', $login);
+        $stmt->bindValue(':loginsenha', $lenha);
+        
+        $stmt->execute();
+        $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        
+        $name = $dados[0]['nomeResponsavel'];
         
 
-        if(strcmp($login,'admin@mail.com') == 0 && strcmp($lenha,'admin') == 0){
+        if(strcmp($login,'admin@mail.com') == 0 && strcmp($lenha,'d033e22ae348aeb5660fc2140aec35850c4da997') == 0){
             $_SESSION['authenticateADM'] = true;
             header("location: admin.php");
-        }elseif (strcmp($lenha,$dados['senha']) == 0 && strcmp($login,$dados['email']) == 0){
+        }elseif (strcmp($lenha,$dados[0]['senha']) == 0 && strcmp($login,$dados[0]['email']) == 0){
             $_SESSION['usuario'] = $name;
             $_SESSION['email'] = $login;
             $_SESSION['authenticateUser'] = true;
+            header('location: Usuario.php');
             exit();
         }
         
