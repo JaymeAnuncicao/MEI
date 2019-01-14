@@ -1,8 +1,8 @@
 <?php
  session_start();
- if($_SESSION['authenticateUser'] != true){
+ if($_SESSION['authenticateUser'] == false){
      session_destroy();
-     header("Location: FAQ.php");
+     header("Location: redirect.php");
  }
 ?>
 

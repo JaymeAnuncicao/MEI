@@ -1,5 +1,10 @@
 
 <?php
+    session_start();
+    if($_SESSION['authenticateADM'] == false){
+        session_destroy();
+        header("Location: redirect.php");
+    }
     require_once 'PHP/init.php';
 
     if(isset($_POST['assunto'],$_POST['numero'],$_POST['titulo'])){
@@ -47,12 +52,12 @@
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
         <input type="text" name="assunto" placeholder="Assunto">
         <select name="numero" id="">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
+            <option value="6">1</option>
+            <option value="5">2</option>
+            <option value="4">3</option>
+            <option value="3">4</option>
+            <option value="2">5</option>
+            <option value="1">6</option>
         </select>
         <textarea name="titulo" id="" cols="30" rows="10" placeholder="Titulo"></textarea>
         <input type="submit" value="Atualizar" class="btn btn-success btn-lg col-2 mt-5">

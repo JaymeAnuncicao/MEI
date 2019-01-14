@@ -4,18 +4,14 @@
     $_SESSION['usuario'] = '';
     $_SESSION['email'] = '';
     $_SESSION['senha'] = '';
-    $_SESSION['authenticate']= false;
+    $_SESSION['authenticateUser']= false;
+    $_SESSION['authenticateADM']= false;
 
     require_once 'PHP/init.php';
-
     $conex = db_connect();
     $query1= "SELECT id,assunto,titulo FROM noticias ORDER BY id DESC LIMIT 6;";
     $stmt= $conex->prepare($query1);
     $stmt->execute();
-
-
-
-
     if(isset($_POST['nomeEmpresa'],$_POST['nomeResponsavel'], $_POST['email'],$_POST['senha'],$_POST['estado'],$_POST['CNPJ'],$_POST['CNAE'])){
         $nomeEmpresa=$_POST['nomeEmpresa'];
         $nomeResponsavel=$_POST['nomeResponsavel'];
@@ -24,7 +20,6 @@
         $estado=$_POST['estado'];
         $CNPJ=$_POST['CNPJ'];
         $CNAE=$_POST['CNAE'];       
-
         $query3 = 'SELECT email FROM clientes WHERE email=:email';
         $stmt = $conex->prepare($query3);
         $stmt->bindValue(':email', $email);
@@ -42,7 +37,6 @@
             $stmt->bindValue(':CNAE', $CNAE);
             $stmt->execute();
             header("Location: index.php");
-
         }else {
             $err = 'Email já cadastrado';
             $cadastro = false;
@@ -64,7 +58,6 @@
         
         $name = $dados[0]['nomeResponsavel'];
         
-
         if(strcmp($login,'admin@mail.com') == 0 && strcmp($lenha,'d033e22ae348aeb5660fc2140aec35850c4da997') == 0){
             $_SESSION['authenticateADM'] = true;
             header("location: admin.php");
@@ -74,9 +67,15 @@
             $_SESSION['authenticateUser'] = true;
             header('location: Usuario.php');
             exit();
+        }else{
+            $_SESSION['authenticateADM'] = false;
+            $_SESSION['authenticateUser'] = false;
+            header('location: index.php');
         }
         
     }    
+
+   
 
 
 ?>
@@ -104,64 +103,66 @@
 <body>
     <!---------------------NAVBAR-------------->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-darkblue fixed-top" id="Navbar">
-            <a class="navbar-brand" href="#"><img src="Media/img/logo.png" width="60" height="60" id="navLogo"></a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-darkblue fixed-top" id="Navbar">
+            <a class="navbar-brand" href="#home"><img src="Media/img/logo_new.png" width="60" height="60" id="navLogo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon bg-darkblue"></span>
+                <span class="navbar-toggler-icon "></span>
             </button>
-            <div class="collapse navbar-collapse  bg-darkblue" id="navbarNav">
-                <ul class="navbar-nav ml-5">
-                    <li class="nav-item active">
-                        <a class="nav-link nav-item text-white mt-3" href="#home">Home <span class="sr-only">(current)</span></a>
+            <div class="collapse navbar-collapse " id="navbarNav">
+                <ul class="navbar-nav ml-5 navtam">
+                    <li class="nav-item active efect ">
+                        <a class="nav-link nav-item text-white mt-3 " href="#home">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item efect"  id="ourenterprise">
                         <a class="nav-link text-white mt-3" href="#enterprise">Nossa Empresa</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item efect" id="functions">
                         <a class="nav-link text-white mt-3" href="#funcionalidades">Funcinalidades</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item efect" id="plans">
                         <a class="nav-link text-white mt-3" href="#planos">Planos</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item efect" id="notice">
                         <a class="nav-link text-white mt-3" href="#noticias">Noticias</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item efect">
                         <a class="nav-link text-white mt-3" href="FAQ.php">FAQ</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item efect" id="contacts">
                         <a class="nav-link text-white mt-3" href="#contatos">Contatos</a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link active text-white mt-3" data-toggle="modal" data-target="#ModalCadastro" href="#"><i class="far fa-user mr-2"></i>Cadastrar</a>
+                    <li class="nav-item move"></li>
+                    <li class="nav-item efect ">
+                        <a class="nav-link active text-white mt-3 justify-content-end" data-toggle="modal" data-target="#ModalCadastro" href="#"><i class="far fa-user mr-2"></i>Cadastrar</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item efect">
                         <a class="nav-link text-white mt-3" data-toggle="modal" data-target="#ModalLogin" href="#"><i class="fas fa-sign-in-alt mr-2"></i>Login</a>
                     </li>
                 </ul>
             </div>
         </nav>
     </header>
-
+    
     <!----------------------HOME-------------------->
     <section id="home" class="container-fluid">
-        <div class="row bg">
-            <div class="col-md-12 text-center text-white margem">
+        <div class="row bg-luz">
+            <div class="col-md-12 text-center margem">
                 <img src="Media/img/logo.png" width="300" height="300" id="homeLogo">
                 <h1 class="mt-5">A melhor resposta sua micro ou pequena empresa</h1>
-                <h4 class="mt-3">Você tem dúviddas? Nós respondemos</h4>
+                <h4 class="mt-3">Você tem dúvidas? Nós respondemos</h4>
                 <a href="#"><button class="button button1 mt-5 hvr-grow">SAIBA MAIS</button></a>
             </div>
         </div>
     </section>
+    <div class="marge"  id="anchorempresa"></div>
     <div class="marge" id="enterprise"></div>
 
     <!--------------------------------------NOSSA EMPRESA:INICIO----------------------------------------------------------------->
 
     <section id="nossaempresa" class="container-fluid">
-        <div class="row container-fluid justify-content-center">
-            <div class="col-md-4">
-                <h1 class="texto ">Aprenda mais sobre a</h1>
+        <div class="row container-fluid justify-content-center alin">
+            <div class="col-md-4 ">
+                <h2 class="texto ">Aprenda mais sobre a</h2>
                 <p class="texto ipsum mt-5 text-justify">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica, permanecendo essencialmente  inalterado. Se popularizou na  década de 60, quando a Letraset  lançou decalques contendo</p>
             </div>
             <div class="col-md-6 mt-5 ml-5">
@@ -169,12 +170,12 @@
             </div>
         </div>
     </section>
-    <!-- <div class="anchor"><hr noshade></div> -->
+    <div class="anchor"><hr noshade></div>
     <!--------------------------------------NOSSA EMPRESA:FIM----------------------------------------------------------------->
-
+    <div class="anchors" id="anchorfunction"></div>                
     <!-----------------------------FUNCINALIDADES:INICIO--------------------------->
     <section id="funcionalidades" class="container-fluid">
-        <h1 class="texto text-center">FUNCIONALIDADES</h1>
+        <h3 class="texto text-center">FUNCIONALIDADES</h1>
         <hr noshade class="linha2  text-center">
      
         <div class="row justify-content-center ">
@@ -182,30 +183,30 @@
             <div class="col-md-4 text-right ">
                 <div class="row justify-content-end">   
                     <div class="col-md-10">
-                        <a href="#"><h5 class="texto">Funcionalidade 1</h5></a>
+                        <a href="#"><h5 class="texto ajust">Funcionalidade 1</h5></a>
                         <hr noshade class="func">
-                        <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
+                        <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row justify-content-end">
                 <div class="col-md-10">
-                        <h5 class="texto">Funcionalidade 2</h5>
-                        <hr noshade class="func">
-                        <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
+                        <a href="#"><h5 class="texto ajust">Funcionalidade 2</h5></a>
+                        <hr noshade class="func ">
+                        <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row justify-content-end">
                 <div class="col-md-10">
-                        <h5 class="texto">Funcionalidade 3</h5>
+                        <a href="#"><h5 class="texto ajust">Funcionalidade 3</h5></a>
                         <hr noshade class="func">
-                        <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
+                        <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row justify-content-end">
                 <div class="col-md-10">
-                        <h5 class="texto">Funcionalidade 4</h5>
+                        <a href="#"><h5 class="texto ajust">Funcionalidade 4</h5></a>
                         <hr noshade class="func">
-                        <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
+                        <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
             </div>
@@ -219,30 +220,30 @@
             <div class="col-md-4 ">
                 <div class="row">
                     <div class="col-md-10">
-                        <h5 class="texto">Funcionalidade 5</h5>
+                        <a href="#"><h5 class="texto ajust">Funcionalidade 5</h5></a>
                         <hr noshade class="func1">
-                        <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
+                        <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row">
                 <div class="col-md-10">
-                        <h5 class="texto">Funcionalidade 6</h5>
+                        <a href="#"><h5 class="texto ajust">Funcionalidade 6</h5></a>
                         <hr noshade class="func1">
-                        <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
+                        <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row">
                 <div class="col-md-10">
-                        <h5 class="texto">Funcionalidade 7</h5>
+                        <a href="#"><h5 class="texto ajust">Funcionalidade 7</h5></a>
                         <hr noshade class="func1">
-                        <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
+                        <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-10">
-                        <h5 class="texto">Funcionalidade 8</h5>
+                        <a href="#"><h5 class="texto ajust">Funcionalidade 8</h5></a>
                         <hr noshade class="func1">
-                        <p>Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
+                        <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
             </div>
@@ -254,19 +255,19 @@
     </section>
     <!-----------------------------FUNCINALIDADES:FIM--------------------------->
     
-
+    <div class="anchors" id="anchorcard"></div>
     <!----------------------------------CARTÃO MEi:INICIO---------------------->
     <section id="cartao" class="container-fluid">
         <div class="row  justify-content-around align-items-end">
             <div class="col-md-4 mt-5">
-                <div class="row justify-content-center"><img src="Media/img/cartao-mei.jpeg" alt="" width="350" height="200"></div>
-                <div class="row text-justify">
+                <div class="row justify-content-center"><img src="Media/img/card-mei.jpeg" alt="" width="350" height="200"></div>
+                <div class="row text-justify mt-4">
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex nemo, labore adipisci eveniet totam possimus delectus ab harum! Mollitia voluptatibus quam corporis maiores autem suscipit natus officiis vel atque dolor?Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptas vel cupiditate dolores ratione, totam, corrupti officiis itaque, expedita praesentium quibusdam accusantium voluptatum molestiae vero voluptate suscipit pariatur laborum. Laudantium!
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="row justify-content-center"><img src="Media/img/faq-icon.png" alt="" width="350" height="200"></div>
-                <div class="row text-justify">
+                <div class="row text-justify mt-4">
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex nemo, labore adipisci eveniet totam possimus delectus ab harum! Mollitia voluptatibus quam corporis maiores autem suscipit natus officiis vel atque dolor?Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptas vel cupiditate dolores ratione, totam, corrupti officiis itaque, expedita praesentium quibusdam accusantium voluptatum molestiae vero voluptate suscipit pariatur laborum. Laudantium!
                 </div>
             </div>
@@ -274,7 +275,7 @@
     </section>
     <!----------------------------------CARTÃO MEi:FIM-------------------------->
 
-
+    <div class="anchors" id="anchornews"></div>                
 
     <!-------------------NOTICIAS:INICIO---------------------->
     <section id="noticias" class="container-fluid">
@@ -298,7 +299,7 @@
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
                                         <?php
@@ -309,13 +310,14 @@
                                                 echo('<p>'.ucfirst($user['titulo']). '</p>');
                                             }else{echo('Sem noticia.');}
                                         ?>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
                                         <?php
@@ -326,6 +328,7 @@
                                                 echo('<p>'.ucfirst($user['titulo']). '</p>');
                                             }else{echo('Sem noticia.');}
                                         ?>
+
                                         </div>
                                     </div>
                                 </div>
@@ -338,7 +341,7 @@
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
                                         <?php
@@ -349,13 +352,14 @@
                                                 echo('<p>'.ucfirst($user['titulo']). '</p>');
                                             }else{echo('Sem noticia.');}
                                         ?>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
                                         <?php
@@ -366,6 +370,7 @@
                                                 echo('<p>'.ucfirst($user['titulo']). '</p>');
                                             }else{echo('Sem noticia.');}
                                         ?>
+
                                         </div>
                                     </div>
                                 </div>
@@ -378,7 +383,7 @@
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
                                         <?php
@@ -389,13 +394,14 @@
                                                 echo('<p>'.ucfirst($user['titulo']). '</p>');
                                             }else{echo('Sem noticia.');}
                                         ?>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 backg ml-5">
                                     <div class="row">
                                         <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="imgnot">
+                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
                                         </div>
                                         <div class="mt-3 col-md-4 ml-3">
                                         <?php
@@ -406,6 +412,7 @@
                                                 echo('<p>'.ucfirst($user['titulo']). '</p>');
                                             }else{echo('Sem noticia.');}
                                         ?>
+
                                         </div>
                                     </div>
                                 </div>
@@ -426,24 +433,39 @@
     </section>
     <!--------------------NOTICIAS:FIM-------------------------------->
 
+    <div class="anchors" id="anchorcontatos"></div>
+
     <!--------------------CONTATOS:INICIO-------------------------------->                                       
     <section id="contatos" class="container-fluid">
-        <div class="row bg justify-content-center align-itens-center">
-            <div class="col-6 col-sm-4 mt-5">
-                <h1 class="text-white mt-5 mb-5">Entre em contato conosco</h1>
-                <form action="" method="post">
+        <div class="row bg  align-itens-center">
+            <div class="row justify-content-center container-fluid">
+            <div class="col-12 col-sm-4 mt-5 sendemail">
+                <h2 class="text-white mt-5 mb-5 text-center">Entre em contato conosco</h1>
+                <form  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                     <input type="text" name="Contnome" class="z-depth-1  mb-3 conta1 texto" placeholder="Nome">                            
-                    <input type="email" name="Contemail" class="z-depth-1  mb-3 mr-3 conta texto" id="cemail"placeholder="E-email">
+                    <input type="email" name="Contemail" class="z-depth-1  mb-3 mr-1 conta texto" id="cemail"placeholder="E-email">
                     <input type="text" name="telefone" class="z-depth-1  mb-3 conta texto" placeholder="Telefone">
                     <input type="text" name="motivo" class="z-depth-1  mb-3 conta1 texto" placeholder="Motivo do contato">
-                    <textarea name="mensagem" placeholder="Mensagem..." id="" cols="30" rows="10"></textarea>
+                    <textarea name="mensagem" placeholder="Mensagem..." id="mensage" cols="30" rows="10"></textarea>
                         
                 </form>    
-                <div class="row justify-content-center"><input type="submit" value="Enviar" class="btn btn-success btn-lg col-3 mt-2"></div>                       
+                <div class="row justify-content-center">
+                    <input type="submit" value="Enviar" class="btn btn-success btn-lg col-3 mt-2 ">
+                </div>                      
             </div>
-            
+            </div>
+            <div class="row justify-content-end container-fluid ">
+                <h6 class="text-white text-right uso">Links Úteis: <a href="#" class="termos"><i class="fas fa-paste"></i>Termos de uso</a>  <a href="#" class="termos"class="termos"><i class="far fa-folder-open"></i>Politica de privacidade</a></h6>
+            </div>
         </div>
     </section>                                            
+    <div class="blank"></div>
+    <footer id="footer" class="container-fluid">
+        
+        <div class="row justify-content-center text-white">
+            <h4 class="creditos">Desenvolvido por Praxis - Empresa Junior. 2018.Todos os direitos</h2>
+        </div>
+     </footer>
    <!--------------------CONTATOS:FIM--------------------------------> 
 
 <!---------------MODAL-CADASTRO:INICIO-------------->
@@ -490,7 +512,7 @@
                     </div>
                 </div>                                    
                 <form class="text-center primary-color-dark p-5" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                    <input type="email" required name="loginemail" class="z-depth-1  mb-3 input1 texto" placeholder="Usuario">
+                    <input type="email" required name="loginemail" class="z-depth-1  mb-5 input1 texto" placeholder="Usuario">
                     <input type="password" required name="loginsenha" class="z-depth-1  input1 texto" placeholder="Senha"> 
                     <input type="submit" value="Entrar" class="btn btn-success btn-lg col-6 mt-5">
                 </form>                               
@@ -498,10 +520,7 @@
         </div>
     </div>
 <!--------------------MODAL-LOGIN:FIM------------------->
-    <script type="text/javascript">
-      $('body').scrollspy({ target: '#Navbar' });
-    </script>
-
+  
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/jquery-latest.min.js"></script>
