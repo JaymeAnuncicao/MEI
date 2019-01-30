@@ -1,21 +1,20 @@
-
 <?php
     session_start();
     $_SESSION['usuario'] = '';
-    $_SESSION['email'] = '';
+    $_SESSION['email'] = ''; 
     $_SESSION['senha'] = '';
     $_SESSION['authenticateUser']= false;
     $_SESSION['authenticateADM']= false;
 
     require_once 'PHP/init.php';
     $conex = db_connect();
-    $query1= "SELECT id,assunto,titulo FROM noticias ORDER BY id DESC LIMIT 6;";
+    $query1= "SELECT id,assunto,titulo,imagem FROM noticias ORDER BY id DESC LIMIT 7;";
     $stmt= $conex->prepare($query1);
     $stmt->execute();
     if(isset($_POST['nomeEmpresa'],$_POST['nomeResponsavel'], $_POST['email'],$_POST['senha'],$_POST['estado'],$_POST['CNPJ'],$_POST['CNAE'])){
         $nomeEmpresa=$_POST['nomeEmpresa'];
         $nomeResponsavel=$_POST['nomeResponsavel'];
-        $email=$_POST['email'];
+        $email=$_POST['email']; 
         $senha=sha1($_POST['senha']);
         $estado=$_POST['estado'];
         $CNPJ=$_POST['CNPJ'];
@@ -86,15 +85,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-----TITLE---->
-    <title>MEI</title>
+    <title>Consultoria MEI</title>
     <!-------FONTS------>
+    <link rel="icon" href="Media/img/logo-icon.ico">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <!-----PLUGINS CSS---->
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+    <link rel="stylesheet" href="css/teste.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/responsive.css" />
     <link rel="stylesheet" type="text/css" href="css/hover-min.css">
+    <link rel="stylesheet" type="text/css" href="css/linearicons.css">
     <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
 	<link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
 	<link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
@@ -103,13 +105,13 @@
 <body>
     <!---------------------NAVBAR-------------->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-darkblue fixed-top" id="Navbar">
+        <nav class="navbar navbar-expand-lg   fixed-top" id="Navbar">
             <a class="navbar-brand" href="#home"><img src="Media/img/logo_new.png" width="60" height="60" id="navLogo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon "></span>
             </button>
             <div class="collapse navbar-collapse " id="navbarNav">
-                <ul class="navbar-nav ml-5 navtam">
+                <ul class="navbar-nav ml-3 ">
                     <li class="nav-item active efect ">
                         <a class="nav-link nav-item text-white mt-3 " href="#home">Home <span class="sr-only">(current)</span></a>
                     </li>
@@ -117,19 +119,22 @@
                         <a class="nav-link text-white mt-3" href="#enterprise">Nossa Empresa</a>
                     </li>
                     <li class="nav-item efect" id="functions">
-                        <a class="nav-link text-white mt-3" href="#funcionalidades">Funcinalidades</a>
+                        <a class="nav-link text-white mt-3" href="#funcionalidades">Funcionalidades</a>
                     </li>
                     <li class="nav-item efect" id="plans">
                         <a class="nav-link text-white mt-3" href="#planos">Planos</a>
                     </li>
                     <li class="nav-item efect" id="notice">
-                        <a class="nav-link text-white mt-3" href="#noticias">Noticias</a>
+                        <a class="nav-link text-white mt-3" href="#noticias">Notícias</a>
                     </li>
                     <li class="nav-item efect">
                         <a class="nav-link text-white mt-3" href="FAQ.php">FAQ</a>
                     </li>
                     <li class="nav-item efect" id="contacts">
                         <a class="nav-link text-white mt-3" href="#contatos">Contatos</a>
+                    </li>
+                    <li class="nav-item efect">
+                        <a class="nav-link text-white mt-3" href="https://praxisjr.com.br/">Blog</a>
                     </li>
                     <li class="nav-item move"></li>
                     <li class="nav-item efect ">
@@ -148,8 +153,8 @@
         <div class="row bg-luz">
             <div class="col-md-12 text-center margem">
                 <img src="Media/img/logo.png" width="300" height="300" id="homeLogo">
-                <h1 class="mt-5">A melhor resposta sua micro ou pequena empresa</h1>
-                <h4 class="mt-3">Você tem dúvidas? Nós respondemos</h4>
+                <h1 class="mt-5">Apoiando você e seu negocio</h1>
+                <h4 class="mt-3">Cadastre-se gratuitamente e tenha respostas para as suas duvidas </h4>
                 <a href="#"><button class="button button1 mt-5 hvr-grow">SAIBA MAIS</button></a>
             </div>
         </div>
@@ -157,21 +162,21 @@
     <div class="marge"  id="anchorempresa"></div>
     <div class="marge" id="enterprise"></div>
 
-    <!--------------------------------------NOSSA EMPRESA:INICIO----------------------------------------------------------------->
-
+    <!--------------------------------------NOSSA EMPRESA:INICIO------------------------------------------------>
     <section id="nossaempresa" class="container-fluid">
-        <div class="row container-fluid justify-content-center alin">
-            <div class="col-md-4 ">
-                <h2 class="texto ">Aprenda mais sobre a</h2>
-                <p class="texto ipsum mt-5 text-justify">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica, permanecendo essencialmente  inalterado. Se popularizou na  década de 60, quando a Letraset  lançou decalques contendo</p>
+        <div class="row container-fluid justify-content-center alin" >
+            <div class="col-md-4">
+                <h2 class="texto ">Objetivo do consultor MEi </h2>
+                <p class="texto ipsum mt-5 text-justify">Oferecer ao micro empreendedor individual (MEI) e ao Micro empresário (ME) a possibilidade de ter na palma da mão um canal de comunicação, consultoria e informação, preparado para ajuda-lo a crescer. </p>
             </div>
-            <div class="col-md-6 mt-5 ml-5">
-                <iframe class="embed-responsive embed-responsive-21by9" height="415"  src="https://www.youtube.com/embed/fJ9rUzIMcZQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="col-md-6 ">
+                <iframe class="iframe"   src="https://www.youtube.com/embed/fJ9rUzIMcZQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
     </section>
     <div class="anchor"><hr noshade></div>
-    <!--------------------------------------NOSSA EMPRESA:FIM----------------------------------------------------------------->
+    <!--------------------------------------NOSSA EMPRESA:FIM----------------------------------------------->
+
     <div class="anchors" id="anchorfunction"></div>                
     <!-----------------------------FUNCINALIDADES:INICIO--------------------------->
     <section id="funcionalidades" class="container-fluid">
@@ -183,28 +188,28 @@
             <div class="col-md-4 text-right ">
                 <div class="row justify-content-end">   
                     <div class="col-md-10">
-                        <a href="#"><h5 class="texto ajust">Funcionalidade 1</h5></a>
+                        <a href="funcionalidades.php"><h5 class="texto ajust">Fiscal/tributário</h5></a>
                         <hr noshade class="func">
                         <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row justify-content-end">
                 <div class="col-md-10">
-                        <a href="#"><h5 class="texto ajust">Funcionalidade 2</h5></a>
+                        <a href="#"><h5 class="texto ajust">Pessoal/RH</h5></a>
                         <hr noshade class="func ">
                         <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row justify-content-end">
                 <div class="col-md-10">
-                        <a href="#"><h5 class="texto ajust">Funcionalidade 3</h5></a>
+                        <a href="#"><h5 class="texto ajust">Jurídico </h5></a>
                         <hr noshade class="func">
                         <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row justify-content-end">
                 <div class="col-md-10">
-                        <a href="#"><h5 class="texto ajust">Funcionalidade 4</h5></a>
+                        <a href="#"><h5 class="texto ajust">Treinamentos (link/produção)</h5></a>
                         <hr noshade class="func">
                         <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
@@ -213,35 +218,35 @@
         <!----------------------------BLOCO 1:FIM------------------------>
 
         <!----------------------------IMG-IPHONE:INICIO------------------------>
-            <div class="col-md-4 text-center "><img src="Media/img/iphone.jpg" alt=""></div>
+            <div class="col-md-4 text-center iphone"><img src="Media/img/iphone.jpg" alt=""></div>
         <!----------------------------IMG-IPHONE:FIM------------------------>
         
         <!--------------------------BLOCO 2:INICIO------------------------------>
             <div class="col-md-4 ">
                 <div class="row">
                     <div class="col-md-10">
-                        <a href="#"><h5 class="texto ajust">Funcionalidade 5</h5></a>
+                        <a href=""><h5 class="texto ajust">Financeiro</h5></a>
                         <hr noshade class="func1">
                         <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row">
                 <div class="col-md-10">
-                        <a href="#"><h5 class="texto ajust">Funcionalidade 6</h5></a>
+                        <a href="#"><h5 class="texto ajust">Marketing/ Estratégia</h5></a>
                         <hr noshade class="func1">
                         <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row">
                 <div class="col-md-10">
-                        <a href="#"><h5 class="texto ajust">Funcionalidade 7</h5></a>
+                        <a href="#"><h5 class="texto ajust">Inovação e criatividade</h5></a>
                         <hr noshade class="func1">
                         <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-10">
-                        <a href="#"><h5 class="texto ajust">Funcionalidade 8</h5></a>
+                        <a href="#"><h5 class="texto ajust">Gestão e planejamento</h5></a>
                         <hr noshade class="func1">
                         <p class="ajust">Lorem Ipsum sobreviveu não só a cinco séculos, como também ao  salto para a editoração eletrônica</p>
                     </div>
@@ -254,183 +259,309 @@
         </div>
     </section>
     <!-----------------------------FUNCINALIDADES:FIM--------------------------->
-    
+    <div class="anchors" id="anchorplanos"></div>
+
+    <!----------------------------PLANOS:INICIO--------------------------------->
+    <section class="price-area " id="planos">
+				<div class="container">
+					<div class="row section-gap">
+						<div class="col-lg-3 col-md-6 single-price">
+							<div class="top-part">
+								<h1 class="package-no">01</h1>
+								<h4>Econômico</h4>
+								<p class="mt-10 mody">Individual</p>
+							</div>
+							<div class="package-list text-center">
+								<ul>
+									<li class="text-mody">Secure Online Transfer</li>
+									<li class="text-mody">Unlimited Styles for interface</li>
+									<li class="text-mody">Reliable Customer Service</li>
+								</ul>
+							</div>
+							<div class="bottom-part">
+								<h1>R$ 199.00</h1>
+								<a class="price-btn text-uppercase" href="#">Compre agora</a>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-6 single-price">
+							<div class="top-part">
+								<h1 class="package-no">02</h1>
+								<h4>Business</h4>
+								<p class="mt-10 mody">Individual</p>
+							</div>
+							<div class="package-list">
+								<ul>
+									<li class="text-mody">Secure Online Transfer</li>
+									<li class="text-mody">Unlimited Styles for interface</li>
+									<li class="text-mody">Reliable Customer Service</li>
+								</ul>
+							</div>
+							<div class="bottom-part">
+								<h1>R$ 299.00</h1>
+								<a class="price-btn text-uppercase" href="#">Compre agora</a>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-6 single-price">
+							<div class="top-part">
+								<h1 class="package-no">03</h1>
+								<h4>Premium</h4>
+								<p class="mt-10 mody">Individual</p>
+							</div>
+							<div class="package-list">
+								<ul>
+									<li class="text-mody">Secure Online Transfer</li>
+									<li class="text-mody">Unlimited Styles for interface</li>
+									<li class="text-mody">Reliable Customer Service</li>
+								</ul>
+							</div>
+							<div class="bottom-part">
+								<h1>R$ 399.00</h1>
+								<a class="price-btn text-uppercase" href="#">Compre agora</a>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-6 single-price">
+							<div class="top-part">
+								<h1 class="package-no">04</h1>
+								<h4>Exclusivo</h4>
+								<p class="mt-10 mody ">Individual</p>
+							</div>
+							<div class="package-list">
+								<ul>
+									<li class="text-mody ">Secure Online Transfer</li>
+									<li class="text-mody">Unlimited Styles for interface</li>
+									<li class="text-mody">Reliable Customer Service</li>
+								</ul>
+							</div>
+							<div class="bottom-part">
+								<h1>R$ 499.00</h1>
+								<a class="price-btn text-uppercase" href="#">Compre agora</a>
+							</div>
+						</div>																		
+					</div>
+				</div>	
+			</section>
+    <!----------------------------PLANOS:FIM------------------------------------>
+
+
+
     <div class="anchors" id="anchorcard"></div>
     <!----------------------------------CARTÃO MEi:INICIO---------------------->
     <section id="cartao" class="container-fluid">
-        <div class="row  justify-content-around align-items-end">
+        <div class="row  justify-content-around container-fluid align-items-end">
             <div class="col-md-4 mt-5">
-                <div class="row justify-content-center"><img src="Media/img/card-mei.jpeg" alt="" width="350" height="200"></div>
-                <div class="row text-justify mt-4">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex nemo, labore adipisci eveniet totam possimus delectus ab harum! Mollitia voluptatibus quam corporis maiores autem suscipit natus officiis vel atque dolor?Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptas vel cupiditate dolores ratione, totam, corrupti officiis itaque, expedita praesentium quibusdam accusantium voluptatum molestiae vero voluptate suscipit pariatur laborum. Laudantium!
+                <div class="row justify-content-center"><img src="Media/img/card-mei.jpeg" alt="" id="img-card" width="350" height="200"></div>
+                <div class="row text-justify mt-4 text-modi">
+                O Nosso FAQ, está preparado para lhe ajudar com as duvidas mais frequentes sobre ser MEI ou ME, obrigações, Benefícios, Direitos e Muito Mais.
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="row justify-content-center"><img src="Media/img/faq-icon.png" alt="" width="350" height="200"></div>
-                <div class="row text-justify mt-4">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex nemo, labore adipisci eveniet totam possimus delectus ab harum! Mollitia voluptatibus quam corporis maiores autem suscipit natus officiis vel atque dolor?Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptas vel cupiditate dolores ratione, totam, corrupti officiis itaque, expedita praesentium quibusdam accusantium voluptatum molestiae vero voluptate suscipit pariatur laborum. Laudantium!
+                <div class="row justify-content-center"><img src="Media/img/faq-icon.png" id="img-faq" width="350" height="200"></div>
+                <div class="row text-justify mt-4 text-modi">
+                O Cartão MEi vem com uma proposta de estimular negócios entre os MEIs e os Mês associados, você pode , se quiser, ganhar descontos e ao mesmo tempo pode , se quiser, dar descontos em seus produtos ou serviços.
                 </div>
             </div>
         </div>
     </section>
     <!----------------------------------CARTÃO MEi:FIM-------------------------->
 
+    <!---------------------------------DEPOIMENTOS: INICIO---------------------->
+    <!-- Start testimonial Area -->
+    <section class="testimonial-area section-gap container-fluid">
+		        <div class="container">
+		            <div class="row d-flex justify-content-center">
+		                <div class="menu-content pb-70 col-lg-8">
+		                    <div class="title  text-center">
+                                <h1 class=" texto">Depoimentos</h1>
+                                <hr noshade class="linha mb-5  text-center">
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="active-testimonial">
+		                    <div class="single-testimonial item d-flex flex-row">
+		                        <div class="thumb">
+		                            <img class="img-fluid" src="Media/img/user1.png" alt="">
+		                        </div>
+		                        <div class="desc">
+		                            <p>
+		                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.		     
+		                            </p>
+		                            <h4>Cristiana Oliveira</h4>
+		                            <p>Lorem ipsum dorlor</p>
+		                        </div>
+		                    </div>
+		                    <div class="single-testimonial item d-flex flex-row">
+		                        <div class="thumb">
+		                            <img class="img-fluid" src="Media/img/user2.png" alt="">
+		                        </div>
+		                        <div class="desc">
+		                            <p>
+		                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+		                            </p>
+		                            <h4>Felipe Carvalho</h4>
+		                            <p>Lorem ipsum dorlor</p>
+		                        </div>
+		                    </div>
+		                    <div class="single-testimonial item d-flex flex-row">
+		                        <div class="thumb">
+		                            <img class="img-fluid" src="Media/img/user3.png" alt="">
+		                        </div>
+		                        <div class="desc">
+		                            <p>
+		                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+		                            </p>
+		                            <h4>Carlos Ferreira</h4>
+		                            <p>Lorem ipsum dorlor</p>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </section>
+    <!---------------------------------DEPOIMENTOS: FIM---------------------->
+
     <div class="anchors" id="anchornews"></div>                
 
-    <!-------------------NOTICIAS:INICIO---------------------->
+
     <section id="noticias" class="container-fluid">
-        <div class="row">
-            <div class="col text-center">
-                <h1 class="texto">Noticias</h1>
-                <hr noshade class="linha float-center">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content mt-5 col-lg-8">
+                <div class="title  text-center">
+                    <h1 class="texto">Notícias</h1>
+                    <hr noshade class="linha mb-5  text-center">
+                </div>
             </div>
-        </div> 
-        <div id="news">
-                <div id="carouselExampleIndicators" class="carousel slide ml-5 " data-ride="carousel">
-                    <ol class="carousel-indicators desce">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1" ></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2" ></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row justify-content-center">
-                            <!------------------PRIMEIRO PAR DE NOTICIAS:INCIO---------------->
-                                <div class="col-md-4 backg ml-5">
-                                    <div class="row">
-                                        <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
-                                        </div>
-                                        <div class="mt-3 col-md-4 ml-3">
-                                        <?php
-                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                            $id=$user['id'];
-                                            if(isset($user['titulo'])){
-                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
-                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
-                                            }else{echo('Sem noticia.');}
-                                        ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 backg ml-5">
-                                    <div class="row">
-                                        <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
-                                        </div>
-                                        <div class="mt-3 col-md-4 ml-3">
-                                        <?php
-                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                            $id=$user['id'];
-                                            if(isset($user['titulo'])){
-                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
-                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
-                                            }else{echo('Sem noticia.');}
-                                        ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!------------------PRIMEIRO PAR DE NOTICIAS:FIM---------------->
-                            </div>
+        </div>
+        <div class="row">
+            <div class=" container">
+                <div class="active-news">
+                    <div class="single-news item d-flex flex-row">
+                        <div class="col-md-6 d-flex thumblr">
+                           <?php 
+                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $id=$user['id'];
+                                $url = $user['imagem'];
+                                if(isset($user['imagem'])){
+                                    echo('<img class="img-fluid img-news" src="'.$url.'" width="300" height="150">');
+                                }else{echo('Sem imagem');}
+                           ?>
                         </div>
-                        <div class="carousel-item">
-                            <div class="row justify-content-center">
-                            <!------------------SEGUNDO PAR DE NOTICIAS:INCIO---------------->
-                                <div class="col-md-4 backg ml-5">
-                                    <div class="row">
-                                        <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
-                                        </div>
-                                        <div class="mt-3 col-md-4 ml-3">
-                                        <?php
-                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                            $id=$user['id'];
-                                            if(isset($user['titulo'])){
-                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
-                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
-                                            }else{echo('Sem noticia.');}
-                                        ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 backg ml-5">
-                                    <div class="row">
-                                        <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
-                                        </div>
-                                        <div class="mt-3 col-md-4 ml-3">
-                                        <?php
-                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                            $id=$user['id'];
-                                            if(isset($user['titulo'])){
-                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
-                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
-                                            }else{echo('Sem noticia.');}
-                                        ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!------------------SEGUNDO PAR DE NOTICIAS:FIM---------------->
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row justify-content-center">
-                            <!------------------TERCEIRO PAR DE NOTICIAS:INICIO---------------->
-                                <div class="col-md-4 backg ml-5">
-                                    <div class="row">
-                                        <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
-                                        </div>
-                                        <div class="mt-3 col-md-4 ml-3">
-                                        <?php
-                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                            $id=$user['id'];
-                                            if(isset($user['titulo'])){
-                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
-                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
-                                            }else{echo('Sem noticia.');}
-                                        ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 backg ml-5">
-                                    <div class="row">
-                                        <div class="mt-3 col-md-4 mr-5">
-                                            <img src="Media/img/slide1.jpg" width="220" height="150" class="img-news">
-                                        </div>
-                                        <div class="mt-3 col-md-4 ml-3">
-                                        <?php
-                                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                                            $id=$user['id'];
-                                            if(isset($user['titulo'])){
-                                                echo('<p class="text-danger">'.ucfirst($user['assunto']). '</p>');  
-                                                echo('<p>'.ucfirst($user['titulo']). '</p>');
-                                            }else{echo('Sem noticia.');}
-                                        ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!------------------TERCEIRO PAR DE NOTICIAS:FIM---------------->
-                            </div>
+                        <div class="col-md-6 desc-news">
+                            <?php
+                                if(isset($user['titulo'])){
+                                    echo('<h4 class="text-danger">'.ucfirst($user['assunto']). '</h4>');  
+                                    echo('<h6>'.ucfirst($user['titulo']). '</h6>');
+                                }else{echo('Sem noticia.');}
+                            ?>
                         </div>
                     </div>
-                    <a class="carousel-control-prev mr-5" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                    <div class="single-news item d-flex flex-row">
+                        <div class="thumblr col-md-6 d-flex">
+                        <?php 
+                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                            $id=$user['id'];
+                            $url = $user['imagem'];
+                            if(isset($user['imagem'])){
+                                echo('<img class="img-fluid img-news" src="'.$url.'" width="300" height="150">');
+                            }else{echo('Sem imagem');}
+                           ?>
+                        </div>
+                        <div class="desc-news col-md-6">
+                            <?php
+                                if(isset($user['titulo'])){
+                                    echo('<h4 class="text-danger">'.ucfirst($user['assunto']). '</h4>');  
+                                    echo('<h6>'.ucfirst($user['titulo']). '</h6>');
+                                }else{echo('Sem noticia.');}
+                            ?>
+                        </div>
+                    </div>
+                    <div class="single-news item d-flex flex-row">
+                        <div class="thumblr col-md-6 d-flex">
+                            <?php 
+                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $id=$user['id'];
+                                $url = $user['imagem'];
+                                if(isset($user['imagem'])){
+                                    echo('<img class="img-fluid img-news" src="'.$url.'" width="300" height="150">');
+                                }else{echo('Sem imagem');}
+                           ?>
+                        </div>
+                        <div class="desc-news col-md-6">
+                            <?php  
+                                if(isset($user['titulo'])){
+                                    echo('<h4 class="text-danger">'.ucfirst($user['assunto']). '</h4>');  
+                                    echo('<h6>'.ucfirst($user['titulo']). '</h6>');
+                                }else{echo('Sem noticia.');}
+                            ?>
+                        </div>
+                    </div>
+                    <div class="single-news item d-flex flex-row">
+                        <div class="thumblr col-md-6 d-flex">
+                            <?php 
+                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $id=$user['id'];
+                                $url = $user['imagem'];
+                                if(isset($user['imagem'])){
+                                    echo('<img class="img-fluid img-news" src="'.$url.'" width="300" height="150">');
+                                }else{echo('Sem imagem');}
+                           ?>
+                        </div>
+                        <div class="desc-news col-md-6">
+                            <?php 
+                                if(isset($user['titulo'])){
+                                    echo('<h4 class="text-danger">'.ucfirst($user['assunto']). '</h4>');  
+                                    echo('<h6>'.ucfirst($user['titulo']). '</h6>');
+                                }else{echo('Sem noticia.');}
+                            ?>
+                        </div>
+                    </div>
+                    <div class="single-news item d-flex flex-row">
+                        <div class="thumblr col-md-6 d-flex">
+                            <?php 
+                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $id=$user['id'];
+                                $url = $user['imagem'];
+                                if(isset($user['imagem'])){
+                                    echo('<img class="img-fluid img-news" src="'.$url.'" width="300" height="150">');
+                                }else{echo('Sem imagem');}
+                           ?>
+                        </div>
+                        <div class="desc-news col-md-6"> 
+                            <?php
+                                if(isset($user['titulo'])){
+                                    echo('<h4 class="text-danger">'.ucfirst($user['assunto']). '</h4>');  
+                                    echo('<h6>'.ucfirst($user['titulo']). '</h6>');
+                                }else{echo('Sem noticia.');}
+                            ?>
+                        </div>
+                    </div>
+                    <div class="single-news item d-flex flex-row">
+                        <div class="thumblr col-md-6 d-flex">
+                            <?php 
+                                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                                $id=$user['id'];
+                                $url = $user['imagem'];
+                                if(isset($user['imagem'])){
+                                    echo('<img class="img-fluid img-news" src="'.$url.'" width="300" height="150">');
+                                }else{echo('Sem imagem');}
+                           ?>
+                        </div>
+                        <div class="desc-news col-md-6">
+                            <?php
+                                if(isset($user['titulo'])){
+                                    echo('<h4 class="text-danger">'.ucfirst($user['assunto']). '</h4>');  
+                                    echo('<h6>'.ucfirst($user['titulo']). '</h6>');
+                                }else{echo('Sem noticia.');}
+                            ?>
+                        </div>
+                    </div>
                 </div>
+            </div>
         </div>
+        
     </section>
+    <!-------------------NOTICIAS:INICIO---------------------->
+    
     <!--------------------NOTICIAS:FIM-------------------------------->
 
     <div class="anchors" id="anchorcontatos"></div>
@@ -439,32 +570,46 @@
     <section id="contatos" class="container-fluid">
         <div class="row bg  align-itens-center">
             <div class="row justify-content-center container-fluid">
-            <div class="col-12 col-sm-4 mt-5 sendemail">
-                <h2 class="text-white mt-5 mb-5 text-center">Entre em contato conosco</h1>
-                <form  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                    <input type="text" name="Contnome" class="z-depth-1  mb-3 conta1 texto" placeholder="Nome">                            
-                    <input type="email" name="Contemail" class="z-depth-1  mb-3 mr-1 conta texto" id="cemail"placeholder="E-email">
-                    <input type="text" name="telefone" class="z-depth-1  mb-3 conta texto" placeholder="Telefone">
-                    <input type="text" name="motivo" class="z-depth-1  mb-3 conta1 texto" placeholder="Motivo do contato">
+            <div class="col-12 col-md-6 col-lg-4 col-sm-12 mt-5 sendemail">
+                <h3 class="text-white mt-5 mb-5 text-center">Entre em contato conosco</h1>
+                <form  action="PHP/sendmail.php" method="post" id="sendmail" class="text-center">
+                    <input type="text" name="Contnome" class="z-depth-1  mb-3 conta1  texto" placeholder="Nome">                            
+                    <input type="email" name="Contemail" class="z-depth-1  mb-3 mr-1 conta  texto" id="cemail"placeholder="E-email">
+                    <input type="text" name="telefone" class="z-depth-1  mb-3 conta  texto" placeholder="Telefone">
+                    <input type="text" name="motivo" class="z-depth-1  mb-3 conta1  texto" placeholder="Motivo do contato">
                     <textarea name="mensagem" placeholder="Mensagem..." id="mensage" cols="30" rows="10"></textarea>
                         
                 </form>    
                 <div class="row justify-content-center">
-                    <input type="submit" value="Enviar" class="btn btn-success btn-lg col-3 mt-2 ">
+                    <input type="submit" value="Enviar"  class="btn btn-success btn-lg col-3 col-sm-4 mt-2 ">
                 </div>                      
             </div>
             </div>
-            <div class="row justify-content-end container-fluid ">
-                <h6 class="text-white text-right uso">Links Úteis: <a href="#" class="termos"><i class="fas fa-paste"></i>Termos de uso</a>  <a href="#" class="termos"class="termos"><i class="far fa-folder-open"></i>Politica de privacidade</a></h6>
-            </div>
         </div>
     </section>                                            
-    <div class="blank"></div>
+    <div class="bluest"></div>
     <footer id="footer" class="container-fluid">
-        
-        <div class="row justify-content-center text-white">
-            <h4 class="creditos">Desenvolvido por Praxis - Empresa Junior. 2018.Todos os direitos</h2>
+        <div class="row justify-content-center container text-white ml-5">
+            <div class="col-md-4">
+                <div class="row"><a href="#" class="termos"><h6>Marca</h6></a></div>
+                <div class="row"><a href="#" class="termos"><h6>Termo de uso</h6></a></div>
+                <div class="row"><a href="#" class="termos"><h6>Politica de privacidade</h6></a></div>
+                <div class="row"><a href="#" class="termos"><h6>Rede socias</h6></a></div>
+            </div>
+            <div class="col-md-4">
+                <div class="row"><a href="#" class="termos" ><h6>FAQ</h6></a></div>
+                <div class="row"><a href="#" class="termos"><h6>Cadastre-se</h6></a></div>
+                <div class="row"><a href="#" class="termos"><h6>Novidades</h6></a></div>
+                <div class="row"><a href="#" class="termos"><h6>Planos</h6></a></div>
+            </div>
+            <div class="col-md-4">
+                <div class="row"><a href="#" class="termos"><h6>Consultor MEi</h6></a></div>
+                <div class="row"><a href="#" class="termos"><h6>Maximo´s Tecnologia Ltda</h6></a></div>
+                <div class="row"><a href="#" class="termos"><h6>CNPJ N. 11.063.128/0001-10</h6></a></div>
+                <div class="row"><a href="#" class="termos"><h6>E-mail: contato@consultormei.com.br</h6></a></div>
+            </div>
         </div>
+        <div class="row justify-content-center creditos text-white"><h6 class="  mt-3">© Desenvolvido por Praxis - Empresa Jr.2019.Todos os direitos reservados</h6> </div>
      </footer>
    <!--------------------CONTATOS:FIM--------------------------------> 
 
@@ -473,10 +618,10 @@
         <div class="modal-dialog" role="document"> 
             <div class="modal-content">
                 <div class="row">
-                    <div class="col-md-8 col-sm-4 text-right ml-4">
-                        <h1 class="modal-title texto  mb-3 ml-5 mt-4" id="exampleModalCenterTitle">CADASTRO</h1>
+                    <div class="col-md-8 col-sm-4 text-right">
+                        <h1 class="modal-title texto  mb-3 title-margin" id="exampleModalCenterTitle">CADASTRO</h1>
                     </div>
-                    <div class="col-md-3 col-sm-4 mt-1 ml-1">
+                    <div class="col-md-3 col-sm-4 mt-1 ml-1 exit-margin">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -500,10 +645,10 @@
 <!--------------------MODAL-LOGIN:INICIO------------------->
     <div class="modal fade bd-example-modal-sm" id="ModalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content modal-login">
                 <div class="row">
                     <div class="col-md-7 col-sm-4 text-right ml-4">
-                        <h1 class="modal-title texto mt-3 mb-5 ml-5" id="exampleModalCenterTitle">LOGIN</h1>
+                        <h1 class="modal-title texto mt-3 login-margin" id="exampleModalCenterTitle">LOGIN</h1>
                     </div>
                     <div class="col-md-2 ml-5 mt-1">
                         <button type="button" class="close ml-5" data-dismiss="modal" aria-label="Close">
@@ -525,15 +670,7 @@
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/jquery-latest.min.js"></script>
     <script type="text/javascript" src="js/wow.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
-
-
-<?php
-
-  
-
-
-
-?>
